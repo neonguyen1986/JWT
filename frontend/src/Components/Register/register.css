@@ -15,6 +15,10 @@
   font-weight: 700;
   font-size: 1.5rem;
 }
+.login-form{
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
 .register-error{
   margin-top:1rem;
   align-self:center;

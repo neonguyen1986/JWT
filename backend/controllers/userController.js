@@ -3,12 +3,17 @@ const User = require('../models/User')
 const userController = {
     //GET ALL USERS
     getAllUsers: async (req, res) => {
-        //console.log('getAllUser=====',req)
+        // console.log('getAllUser=====', req.user)
+        //req here is the req from middleware
+        //req.user:{
+        //     id:........
+        //     admin:.......
+        //     iat:.......
+        //     exp:.......
+        // }
         try {
             //if user is NOT admin, display All users but Admin
-            const curUser = await User.findOne({ username: req.body.username })
-
-            const allUsers = curUser?.admin === false
+            const allUsers = req.user.admin === false
                 ? await User.find({ admin: false })
                 : await User.find()
             res.status(200).json(allUsers)
@@ -19,6 +24,7 @@ const userController = {
 
     //DELETE USER
     deleteUser: async (req, res) => {
+        // console.log('deleteuser==============', req)
         try {
             await User.findByIdAndDelete(req.params.id)
             res.status(200).json('Delete successfully')

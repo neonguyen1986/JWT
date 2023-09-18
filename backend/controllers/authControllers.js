@@ -23,7 +23,10 @@ const authController = {
 
             //save user to DB
             const user = await newUser.save();
-            res.status(200).json(user);
+            res.status(200).json({
+                ...user,
+                message: 'Register successfully'
+            });
         } catch (error) {
             res.status(500).json(error)
         }
@@ -36,7 +39,7 @@ const authController = {
             admin: user.admin,
         },
             process.env.JWT_ACCESS_KEY,//secret key to add to token
-            { expiresIn: '30s' },//after 5 minutes, the token will be expired, user have to login again
+            { expiresIn: '10s' },//after 5 minutes, the token will be expired, user have to login again
         );
     },
     //GENERATE REFRESH TOKEN
@@ -104,13 +107,13 @@ const authController = {
             }
             else {
                 refreshTokenArr = refreshTokenArr.filter((token) => token !== refreshToken);
-                console.log('removed old reToken Arr======', refreshTokenArr)
+                // console.log('removed old reToken Arr======', refreshTokenArr)
 
                 //create new refreshToken, accessToken
                 const newAccessToken = authController.generateAccessToken(user);
                 const newRefreshToken = authController.generateRefreshToken(user);
                 refreshTokenArr.push(newRefreshToken)
-                console.log('added new reToken Arr======', refreshTokenArr)
+                // console.log('added new reToken Arr======', refreshTokenArr)
 
                 //save newRefreshToken in cookies
                 res.cookie('refreshTokenCookie', newRefreshToken, {
@@ -127,9 +130,11 @@ const authController = {
 
     //LOGOUT
     userLogout: async (req, res) => {
-        res.clearCookie('refreshToken');
+        // console.log('=======================res before:', res)
+        res.clearCookie('refreshTokenCookie');
+        // console.log('=======================res after:', res)
         //accessToken will be clear in frontend
-        refreshTokenArr = refreshTokenArr.filter((token) => token !== req.cookies.refreshToken)
+        refreshTokenArr = refreshTokenArr.filter((token) => token !== req.cookies.refreshTokenCookie)
         res.status(200).json('Logged out!')
     }
 }

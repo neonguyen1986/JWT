@@ -3,7 +3,6 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-const nodemon = require('nodemon');
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/user')
 
@@ -27,7 +26,10 @@ const app = express();
 })();
 
 
-app.use(cors()); //prevent corss-origin error
+app.use(cors({
+    origin: process.env.URL_REACT,
+    credentials: true,
+}));
 app.use(cookieParser())
 app.use(express.json())//transfer all req to JSON
 

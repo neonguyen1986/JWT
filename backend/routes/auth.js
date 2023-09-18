@@ -1,7 +1,8 @@
 const authController = require('../controllers/authControllers');
 const middlewareController = require('../controllers/middlewareController')
-const { route } = require('./user');
 const router = require('express').Router();
+// const { route } = require('./user');
+
 
 //REGISTER
 router.post('/register', authController.registerUser);
@@ -12,7 +13,7 @@ router.post('/login', authController.loginUser);
 //REFRESH TOKEN
 router.post('/refresh', authController.requestRefreshToken);
 
-//LOGOUT TOKEN
+//LOGOUT WITH TOKEN
 router.post('/logout', middlewareController.verifyToken, authController.userLogout);
 
 module.exports = router;
