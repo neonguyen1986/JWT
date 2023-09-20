@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: loginjwt-be:v1
+    ports:
+      - "8002:8002"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: loginjwt-fe:v1
+    ports:
+      - "3002:3002"
+
+# docker compose -p login-jwt up --build -d
